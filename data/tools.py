@@ -22,7 +22,7 @@ class Control(object):
         self.clock = pg.time.Clock()
         self.caption = caption
         self.fps = 60
-        self.show_fps = False
+        self.show_fps = True
         self.current_time = 0.0
         self.action_start_time = 0.0
         self.current_action_idx = 0
