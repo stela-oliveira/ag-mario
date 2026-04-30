@@ -1,12 +1,14 @@
 import random
 
 import individuo
+import serializer as s
+import populacao as p
 
 class AlgoritmoGenetico: 
     def __init__(self, tamanho_populacao, tamanho_cromossomo):
         self.tamanho_populacao = tamanho_populacao
         self.tamanho_cromossomo = tamanho_cromossomo
-        self.populacao = []
+        self.populacao = p.Populacao()
 
     def inicializar_populacao(self):
 
@@ -16,10 +18,11 @@ class AlgoritmoGenetico:
                 cromossomo.append(random.randint(0, 6))
                 cromossomo.append(random.randint(0, 1000))
 
-            self.populacao.append(individuo.Individuo(cromossomo))
+            self.populacao.add_individuo(individuo.Individuo(cromossomo))
 
-    def avaliar_populacao(self):
-        pass
+    def avaliar_populacao(self, populacao: p.Populacao):
+        for ind in populacao.individuos:
+            ind.calcular_fitness(redraw=True)
 
     def selecionar_pais(self):
         pass
@@ -35,10 +38,8 @@ class AlgoritmoGenetico:
 
     def executar(self):
         self.inicializar_populacao()
-        
-        for i, ind in enumerate(self.populacao):
-            print(f"  > Testando indivíduo {i+1}/{self.tamanho_populacao}...")
-            ind.calcular_fitness(redraw=True)
-        
+        self.avaliar_populacao(self.populacao)
+        print("---- salvando ----")
+        s.salvar_populacao(self.populacao, "populacao2")
 
         pass
