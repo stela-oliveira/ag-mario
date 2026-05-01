@@ -6,6 +6,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import algoritmo_genetico
 
-ag = algoritmo_genetico.AlgoritmoGenetico(2, 10)
+ag = algoritmo_genetico.AlgoritmoGenetico(5, 5)
 
 ag.executar()
