@@ -4,12 +4,12 @@ import os
 import pygame as pg
 
 keybinding = {
-    'action':1,
-    'jump':2,
-    'left':3,
-    'right':4,
-    'down':5,
-    'still':6
+    'action': 1,
+    'jump': 2,
+    'left': 4,
+    'right': 8,
+    'down': 16,
+    'still': 0
 }
 
 class Control(object):

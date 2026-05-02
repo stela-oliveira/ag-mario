@@ -61,5 +61,5 @@ def exibir_resultados(path):
 
 if __name__ == "__main__":
     # Tenta ler o arquivo passado por argumento ou o padrão 'populacao1'
-    target_path = sys.argv[1] if len(sys.argv) > 1 else "populacao1"
+    target_path = sys.argv[1] if len(sys.argv) > 1 else "melhor_resultado_final"
     exibir_resultados(target_path)
