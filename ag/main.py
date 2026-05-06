@@ -21,4 +21,4 @@ try:
         ag.evoluir(n_geracoes=1)
 except KeyboardInterrupt:
     print("\nInterrompido pelo usuário. Salvando melhor resultado...")
-    ag.salvar_melhor("melhor_resultado_final_paralelismo")
+    ag.salvar_melhor("melhor_resultado_final_paralelismo2")

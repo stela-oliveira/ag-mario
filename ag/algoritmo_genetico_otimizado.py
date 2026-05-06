@@ -1,20 +1,7 @@
-import os
-# Configuração para rodar Pygame em modo 'headless' (necessário para paralelismo)
-os.environ["SDL_VIDEODRIVER"] = "dummy"
-
 import random
-import asyncio
-from concurrent.futures import ProcessPoolExecutor
 from individuo import Individuo
 from populacao import Populacao
 from data.tools import keybinding
-from data.marioMain import mainMario
-
-# Função Worker (precisa estar no topo do módulo para o ProcessPoolExecutor)
-def avaliar_individuo_paralelo(cromossomo):
-    # Importante: redraw=False para evitar abrir janelas em paralelo
-    distancia, tempo = mainMario(cromossomo, redraw=False)
-    return distancia, tempo
 
 class AlgoritmoGeneticoOtimizado:
     """
@@ -106,34 +93,11 @@ class AlgoritmoGeneticoOtimizado:
         
         return self.prefixo_fixo + nova_janela
 
-    async def _avaliar_populacao_async(self, cromossomos):
-        """Gerencia o pool de processos para avaliação paralela."""
-        loop = asyncio.get_running_loop()
-        # max_workers define o número de processos paralelos (ajuste conforme seu CPU)
-        with ProcessPoolExecutor(max_workers=8) as executor:
-            tasks = [
-                loop.run_in_executor(executor, avaliar_individuo_paralelo, c)
-                for c in cromossomos
-            ]
-            resultados = await asyncio.gather(*tasks)
-        return resultados
-
     def avaliar_populacao(self):
-        """Avalia os indivíduos da população que ainda não possuem fitness."""
-        individuos_para_avaliar = [ind for ind in self.populacao.individuos if ind.fitness is None]
-        
-        if not individuos_para_avaliar:
-            return
-
-        print(f"Avaliando {len(individuos_para_avaliar)} indivíduos em paralelo...")
-        cromossomos = [ind.cromossomo for ind in individuos_para_avaliar]
-        
-        # Executa o loop assíncrono para processar em paralelo
-        resultados = asyncio.run(self._avaliar_populacao_async(cromossomos))
-        
-        # Atribui os resultados de volta aos objetos Individuo
-        for ind, (distancia, tempo) in zip(individuos_para_avaliar, resultados):
-            ind.fitness = distancia
+        for ind in self.populacao.individuos:
+            if ind.fitness is None:
+                # marque True se quiser visualizar o treinamento
+                ind.calcular_fitness(redraw=True)
 
     def evoluir(self, n_geracoes=1):
         for _ in range(n_geracoes):
