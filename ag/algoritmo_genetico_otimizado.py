@@ -10,6 +10,7 @@ class AlgoritmoGeneticoOtimizado:
     Versão 2.0: Suporta combinações de teclas e mutação adaptativa.
     """
     def __init__(self, tamanho_populacao=20, tamanho_janela=10, genes_para_fixar=2):
+        self.historico_fitness = []
         self.tamanho_populacao = tamanho_populacao
         self.tamanho_janela = tamanho_janela  # Número de pares (comando, duração)
         self.genes_para_fixar = genes_para_fixar # Quantos genes da janela ativa movem para o prefixo
@@ -103,7 +104,7 @@ class AlgoritmoGeneticoOtimizado:
         for _ in range(n_geracoes):
             self.geracao_atual += 1
             print(f"\n--- Geração {self.geracao_atual} (Prefixo: {len(self.prefixo_fixo)//2} genes) ---")
-            
+
             self.inicializar_populacao()
             self.avaliar_populacao()
             
@@ -111,6 +112,13 @@ class AlgoritmoGeneticoOtimizado:
             fitness_atual = melhor_ind.fitness
             
             print(f"Melhor Fitness da Geração: {fitness_atual} (Global: {self.melhor_fitness_global})")
+            
+            # Salva histórico para criação dográfico
+            self.historico_fitness.append({'geracao': self.geracao_atual, 'fitness': fitness_atual})
+            import json, os
+            caminho = os.path.join(os.path.dirname(__file__), '..', 'historico_paralelismo.json')
+            with open(caminho, 'w') as f:
+                json.dump(self.historico_fitness, f)
             
             # Verifica progresso
             if fitness_atual > self.melhor_fitness_global:
