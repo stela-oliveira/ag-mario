@@ -1,6 +1,8 @@
 import os
 import sys
 
+os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 # Adiciona o diretório raiz ao path para encontrar o pacote 'data'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
