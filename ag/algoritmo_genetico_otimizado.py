@@ -20,6 +20,7 @@ class AlgoritmoGeneticoOtimizado:
         self.populacao = Populacao()
         self.geracao_atual = 0
         self.melhor_fitness_global = -1
+        self.historico_fitness = []
         self.estabilidade_fitness = 0
         self.limite_estabilidade = 10 # Aumentado para dar mais tempo de exploração
         
@@ -111,6 +112,13 @@ class AlgoritmoGeneticoOtimizado:
             fitness_atual = melhor_ind.fitness
             
             print(f"Melhor Fitness da Geração: {fitness_atual} (Global: {self.melhor_fitness_global})")
+            
+            # Salva histórico
+            self.historico_fitness.append({'geracao': self.geracao_atual, 'fitness': fitness_atual})
+            import json, os
+            caminho = os.path.join(os.path.dirname(__file__), '..', 'historico_sem_paralelismo.json')
+            with open(caminho, 'w') as f:
+                json.dump(self.historico_fitness, f)
             
             # Verifica progresso
             if fitness_atual > self.melhor_fitness_global:
