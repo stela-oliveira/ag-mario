@@ -1,58 +1,16 @@
 #!/usr/bin/env python
 """Script para assistir o Mario jogando automaticamente com um chromosome"""
-
-import csv
-import sys
 import pygame as pg
+
 from data import marioMain
 
-POPULATION_FOLDER = 'populations'
-
-def load_population(population_name):
-    file_path = f"{POPULATION_FOLDER}/{population_name}.txt"
-    population = []
-    with open(file_path, 'r') as csv_file:
-        reader = csv.reader(csv_file, delimiter=';')
-        for row in reader:
-            population.append(list(map(int, row)))
-    return population
-
-
 def main():
-    if len(sys.argv) > 1:
-        population_name = sys.argv[1]
-    else:
-        print("Nome da população:", end=" ", flush=True)
-        population_name = input().strip()
-    
-    print(f"\nCarregando população: {population_name}")
-    population = load_population(population_name)
-    print(f"População carregada com {len(population)} indivíduos\n")
-    
-    if len(sys.argv) > 2:
-        individual_idx = int(sys.argv[2])
-    else:
-        print(f"Qual indivíduo testar? (0-{len(population)-1}):", end=" ", flush=True)
-        individual_idx = int(input().strip())
-    
-    chromosome = population[individual_idx]
-    
-    print(f"\n{'='*60}")
-    print(f"▶ Assistindo indivíduo {individual_idx}")
-    print(f"  Chromosome length: {len(chromosome)} genes ({len(chromosome)//2} comandos)")
-    print(f"  Primeiros comandos: {chromosome[:8]}")
-    print(f"{'='*60}\n")
-    
-    # Redesenha os frames para ver o Mario jogando
-    distance, time = marioMain.mainMario(chromosome, redraw=True)
-    
-    print(f"\n{'='*60}")
-    print(f"Distância percorrida: {distance}")
-    print(f"Tempo: {time}ms")
-    print(f"{'='*60}")
-    
-    pg.quit()
-    sys.exit()
+    while True:
+        # adicione o cromossomo que deseja testar
+        marioMain.mainMario(
+            [11, 54, 11, 129, 10, 222, 8, 42, 0, 100, 10, 92, 9, 82, 11, 122, 9, 98, 11, 95, 0, 180, 11, 256, 8, 47, 11, 183, 9, 150, 10, 57, 8, 124, 9, 88, 10, 109, 8, 134, 10, 134, 0, 51, 11, 105, 8, 103, 11, 137, 2, 203, 0, 107, 10, 128, 8, 70, 11, 126, 9, 30, 11, 240, 11, 190, 8, 121, 9, 104, 11, 115, 8, 85, 11, 149, 9, 145, 10, 113, 11, 104, 8, 89, 8, 68, 10, 147], 
+            redraw=True
+        )
 
 if __name__ == "__main__":
     main()
